@@ -1,0 +1,115 @@
+# ==========================================================
+# RuangAjar LMS - .gitignore
+# Prioritas utama: JANGAN PERNAH commit kredensial.
+# ==========================================================
+
+# ---------- Environment / secrets (PALING PENTING) ----------
+# Satu aturan ini sudah menutup .env, .env.local, .env.production, dll.
+.env
+.env.*
+!.env.example
+*.env
+
+# Backup / dump kredensial
+*.env.bak
+.envrc
+secrets.json
+secrets.yaml
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+id_rsa
+id_ed25519
+credentials.json
+service-account*.json
+
+# ---------- Supabase ----------
+# Folder lokal hasil `supabase start` (berisi container id, port, log, keys lokal)
+supabase/.temp/
+supabase/.branches/
+supabase/.env
+supabase/config.toml.local
+
+# Config lokal CLI yang bisa berisi token
+.supabase/
+# Jangan pernah commit folder supabase secara keseluruhan.
+# Yang BOLEH di-commit hanya folder supabase/migrations/ (file .sql schema).
+supabase/*
+!supabase/migrations/
+!supabase/migrations/**
+
+# ---------- Node / dependencies ----------
+node_modules/
+jspm_packages/
+.webpack/
+
+# ---------- Build output ----------
+dist/
+dist-ssr/
+build/
+.vite/
+*.local
+
+# ---------- Test / coverage ----------
+coverage/
+.nyc_output/
+storybook-static/
+
+# ---------- Logs ----------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.pid
+*.seed
+*.pid.lock
+
+# ---------- Cache ----------
+.cache/
+.parcel-cache/
+.turbo/
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+
+# ---------- OS / editor ----------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json.jsonc
+.idea/
+*.code-workspace
+
+# ---------- Temporary ----------
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+Thumbs.db
+
+# NOTE: package-lock.json SENGAJA tidak di-ignore.
+# Lockfile wajib di-commit agar dependency reproducible antar mesin & CI.
+# Lockfile LAIN yang dibuat tooling lain tetap di-ignore.
+pnpm-lock.yaml
+yarn.lock
+bun.lockb
+
+# End of .gitignore

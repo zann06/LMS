@@ -1,0 +1,26 @@
+# Normalize line endings: commit LF, checkout native
+* text=auto eol=lf
+
+# Windows
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Lockfiles & generated files: no diff normalization
+package-lock.json -diff linguist-generated=true
+
+# Binary assets
+*.ttf binary
+*.woff binary
+*.woff2 binary
+*.otf binary
+*.eot binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+
+# SQL migrations
+*.sql text eol=lf
