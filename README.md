@@ -174,10 +174,10 @@ Kemudian jalankan salah satu dari:
 ## Menjalankan Aplikasi
 
 ```bash
-npm run dev      # server pengembangan, biasanya http://localhost:5173
-npm run build    # type-check + build produksi ke dist/
-npm run preview  # preview hasil build
-npm run typecheck# cek TypeScript tanpa emit
+npm run dev       # server pengembangan, biasanya http://localhost:5173
+npm run build     # type-check + build produksi ke dist/
+npm run preview   # preview hasil build
+npm run typecheck # cek TypeScript tanpa emit
 ```
 
 Output build produksi ada di folder `dist/`, bisa di-deploy ke **Vercel**, **Netlify**, **Cloudflare Pages**, atau hosting statis lainnya.
