@@ -501,7 +501,7 @@ Untuk riwayat yang sudah di-push, bersihkan dengan `git filter-repo` / BFG Repo-
 | `Invalid API key` saat login | `VITE_SUPABASE_ANON_KEY` salah. Perbaiki lalu restart `npm run dev`. |
 | `Failed to fetch` / CORS | `VITE_SUPABASE_URL` salah, atau project Supabase paused. Cek dashboard. |
 | `relation does not exist` | Migration belum dijalankan. Jalankan semua file di [Setup Database](#setup-database-supabase). |
-| `42P17 infinite recursion detected in policy for relation "classes"/"exams"` | Schema dibuat dari `setup.sql` versi lama. Jalankan ulang **`setup.sql` terbaru** (idempoten — berisi perbaikan policy). |
+| `42P17 infinite recursion detected in policy for relation "classes"/"exams"` | Schema dibuat dari `setup.sql` versi lama. Jalankan ulang **`setup.sql` terbaru** (idempoten).|
 | `42883 function public._finalize_attempt does not exist` saat submit ujian | Sama seperti di atas — fungsi grading ada di `setup.sql` versi baru (bagian 9). |
 | "Mulai Ujian" / menyimpan jawaban / terbitkan nilai ditolak | Policy INSERT belum ada di schema lama — jalankan ulang **`setup.sql` terbaru**. |
 | Login berhasil tapi langsung kembali ke `/login` | Trigger `handle_new_user()` belum aktif. Jalankan `20261007074229_repair_auth_profile_trigger.sql`. |
