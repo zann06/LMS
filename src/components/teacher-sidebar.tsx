@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom'
-import { BookOpen, LayoutDashboard, Users, FileText, BookMarked, ClipboardList, Database, FileCheck, GraduationCap, BarChart3, Settings, LogOut } from 'lucide-react'
+import { LayoutDashboard, Users, FileText, BookMarked, ClipboardList, Database, FileCheck, GraduationCap, BarChart3, Settings, LogOut } from 'lucide-react'
+import { LogoMark } from '@/components/logo-mark'
 import { useAuth } from '@/contexts/auth-context'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarSeparator } from '@/components/ui/sidebar'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
@@ -33,7 +34,7 @@ export function TeacherSidebar() {
       <SidebarHeader>
         <div className="flex items-center gap-2 px-2 py-1">
           <div className="flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <BookOpen className="size-5" />
+            <LogoMark className="size-5" />
           </div>
           <div className="flex flex-col">
             <span className="text-base font-bold leading-tight text-sidebar-foreground">RuangAjar</span>

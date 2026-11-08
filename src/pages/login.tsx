@@ -2,7 +2,8 @@ import { useState, type FormEvent } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 import { toast } from 'sonner'
-import { BookOpen, Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
+import { LogoMark } from '@/components/logo-mark'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Field, FieldLabel } from '@/components/ui/field'
@@ -74,7 +75,7 @@ export function LoginPage() {
       <div className="w-full max-w-sm space-y-6">
         <div className="flex flex-col items-center gap-2 text-center">
           <div className="flex size-14 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-            <BookOpen className="size-7" />
+            <LogoMark className="size-7" />
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground">RuangAjar</h1>
           <p className="text-sm text-muted-foreground">Masuk untuk melanjutkan pembelajaran</p>
