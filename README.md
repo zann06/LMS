@@ -63,7 +63,7 @@ Email    : siswa@demo.local
 Password : SiswaDemo2026!
 ```
 
-Dengan akun siswa kamu bisa melihat kelas "X IPA 1", membaca 2 materi bahan ajar, melihat tugas dengan tenggat, dan mengerjakan ujian pilihan ganda (3 soal, timer 45 menit, skor langsung muncul setelah submit).
+Dengan akun siswa kamu bisa melihat kelas **"X IPA 1"**, membaca 2 materi bahan ajar, melihat tugas dengan tenggat, dan mengerjakan ujian pilihan ganda (3 soal, timer 45 menit, skor langsung muncul setelah submit — contoh nilai **30/30** sudah diterbitkan).
 
 > **Catatan demo:** data di instance live adalah data contoh — pengunjung demo bisa mengubahnya. Untuk pemakaian nyata, selalu deploy dengan project Supabase milik Anda sendiri (ikuti [Mulai Cepat](#mulai-cepat), ±10 menit). Akun guru **tidak** dipublikasikan — guru mengelola kelas, materi, bank soal, ujian, penilaian, dan analitik pada instance masing-masing.
 
@@ -81,7 +81,7 @@ Dengan akun siswa kamu bisa melihat kelas "X IPA 1", membaca 2 materi bahan ajar
 | **Modul** | Susun modul pembelajaran terstruktur, ekspor PDF/PPTX |
 | **Tugas** | Buat tugas, terima submission, nilai & umpan balik |
 | **Bank Soal** | Kumpulan soal yang bisa dipakai ulang di banyak ujian, ekspor dokumen soal |
-| **Ujian** | Buat ujian dari bank soal, atur timing & aturan attempt, publish nilai |
+| **Ujian** | Buat ujian dari bank soal, atur timing & aturan attempt; pilihan ganda **dinilai otomatis di server** — kunci jawaban tidak pernah dikirim ke browser siswa |
 | **Penilaian** | Nilai submission siswa dari satu layar |
 | **Analitik** | Grafik performa kelas (Recharts) |
 | **Pengaturan** | Kelola akun guru |
@@ -247,9 +247,9 @@ Schema database ada di `supabase/migrations/`.
 
 ### Cara A — Supabase SQL Editor (paling mudah)
 
-Buka **SQL Editor → New query**, salin seluruh isi **`supabase/setup.sql`**, lalu **Run**. Satu file berisi semua migration dalam urutan yang benar (schema, RLS, trigger, kunci jawaban, fitur guru) dan aman dijalankan ulang.
+Buka **SQL Editor → New query**, salin seluruh isi **`supabase/setup.sql`**, lalu **Run**. Satu file berisi seluruh migration dalam urutan yang benar — schema, RLS, trigger, kunci jawaban privat, fitur guru, hardening role signup, perbaikan RLS recursion, policy INSERT, dan fungsi grading — semuanya idempoten (aman dijalankan ulang).
 
-> Preferensi per-file? Jalankan 4 file di `supabase/migrations/` secara berurutan: `20261006144215_001_initial_schema.sql` → `20261007074229_repair_auth_profile_trigger.sql` → `20261007080001_private_answer_keys.sql` → `002_teacher_tools.sql`.
+> Preferensi per-file? Jalankan semua file di `supabase/migrations/` **berurutan sesuai nama** (nama file diawali timestamp).
 
 ### Cara B — Supabase CLI
 
@@ -262,20 +262,33 @@ supabase db push
 
 ### Membuat akun guru pertama
 
-Dua migration menyediakan pembuatan akun demo `guru@ruangajar.com`. **Password tidak disimpan di repo** — migration membacanya dari session variable dan **dilewati (no-op)** bila variable belum di-set.
+**Cara termudah — Dashboard:**
 
-Jalankan di SQL Editor, **dalam satu sesi/koneksi**:
+1. **Authentication → Users → Add user** → isi email + password (centang *Auto Confirm User*)
+2. Jalankan SQL singkat ini untuk mengangkat rolenya (ganti email-nya):
+
+```sql
+UPDATE public.profiles SET role = 'teacher'
+ WHERE id = (SELECT id FROM auth.users WHERE email = 'email-guru-anda');
+
+INSERT INTO public.teacher_accounts (user_id, account_status)
+SELECT id, 'active' FROM auth.users WHERE email = 'email-guru-anda'
+ WHERE NOT EXISTS (SELECT 1 FROM public.teacher_accounts
+                    WHERE user_id = (SELECT id FROM auth.users WHERE email = 'email-guru-anda'));
+```
+
+**Cara alternatif — migration demo:** file demo membuat `guru@ruangajar.com` dengan password dari session variable (**tidak pernah tersimpan di repo**; NO-OP bila kosong). Jalankan dalam satu sesi/koneksi:
 
 ```sql
 SET app.demo_teacher_password = 'password-anda-yang-kuat';
 ```
 
-lalu jalankan salah satu:
+lalu (tab yang sama) salah satu dari:
 
-- `supabase/migrations/20261007073725_create_test_teacher_account.sql`
-- `supabase/migrations/20261007074029_repair_test_teacher_auth_account.sql`
+- `supabase/migrations/20261007073725_create_test_teacher_account.sql` — membuat akun baru
+- `supabase/migrations/20261007074029_repair_test_teacher_auth_account.sql` — memperbaiki akun yang sudah ada
 
-> ⚠️ Jangan pakai akun demo di project produksi, dan jangan pernah commit password asli. Untuk pemakaian nyata, buat akun guru via Supabase Dashboard (**Authentication → Add user**) lalu pastikan row `profiles.role` bernilai `teacher`.
+> ⚠️ Jangan pakai akun demo di project produksi, dan jangan pernah commit password asli. Untuk pemakaian nyata, buat akun guru khusus via Dashboard.
 
 ### Konfigurasi Auth (untuk deploy)
 
@@ -373,7 +386,8 @@ Setelah mengubah `.env`, restart dev server — environment Vite hanya dimuat sa
 │   ├── main.tsx             # Entry point
 │   └── index.css            # Design token (tema krem-terracotta)
 ├── supabase/
-│   └── migrations/          # Schema PostgreSQL (SQL)
+│   ├── migrations/          # Schema PostgreSQL (SQL, berurutan per timestamp)
+│   └── setup.sql            # Semua migration digabung — untuk project baru
 ├── scripts/
 │   └── build-pages.mjs      # Build GitHub Pages (base /<repo>/)
 ├── .github/
@@ -452,7 +466,7 @@ Semua rute `/teacher` & `/student` dilindungi `ProtectedRoute`; `/teacher/*` mew
 - 🚫 **Tidak ada `service_role` key** di kode frontend — hanya anon key yang memang dirancang untuk publik.
 - 🧱 **Signup publik selalu ber-role `student`** — role guru tidak bisa diambil lewat API pendaftaran (migration `20261108000001_lock_signup_role_student.sql`). Akun guru hanya dibuat via Dashboard/SQL.
 - 🧹 Folder lokal Supabase (`supabase/.temp/`, dll.) di-ignore; hanya `migrations/*.sql` yang di-commit.
-- 🔒 Kunci jawaban ujian dikunci di level database oleh migration `private_answer_keys.sql`.
+- 🔒 Kunci jawaban ujian dikunci di level database oleh migration `private_answer_keys.sql`, dan penilaian pilihan ganda berjalan **di server** (fungsi SECURITY DEFINER) — perhitungan & kunci tidak pernah dikirim ke browser siswa.
 
 ### Checklist sebelum dipakai produksi
 
@@ -487,6 +501,9 @@ Untuk riwayat yang sudah di-push, bersihkan dengan `git filter-repo` / BFG Repo-
 | `Invalid API key` saat login | `VITE_SUPABASE_ANON_KEY` salah. Perbaiki lalu restart `npm run dev`. |
 | `Failed to fetch` / CORS | `VITE_SUPABASE_URL` salah, atau project Supabase paused. Cek dashboard. |
 | `relation does not exist` | Migration belum dijalankan. Jalankan semua file di [Setup Database](#setup-database-supabase). |
+| `42P17 infinite recursion detected in policy for relation "classes"/"exams"` | Schema dibuat dari `setup.sql` versi lama. Jalankan ulang **`setup.sql` terbaru** (idempoten — berisi perbaikan policy). |
+| `42883 function public._finalize_attempt does not exist` saat submit ujian | Sama seperti di atas — fungsi grading ada di `setup.sql` versi baru (bagian 9). |
+| "Mulai Ujian" / menyimpan jawaban / terbitkan nilai ditolak | Policy INSERT belum ada di schema lama — jalankan ulang **`setup.sql` terbaru**. |
 | Login berhasil tapi langsung kembali ke `/login` | Trigger `handle_new_user()` belum aktif. Jalankan `20261007074229_repair_auth_profile_trigger.sql`. |
 | Role tidak sesuai portal | Role diambil dari `profiles.role` — pastikan nilainya `teacher` atau `student`. |
 | Email reset password tidak terkirim / redirect salah | Atur **Site URL** & **Redirect URLs** di Supabase Auth (lihat [Konfigurasi Auth](#konfigurasi-auth-untuk-deploy)). |
