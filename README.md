@@ -56,17 +56,16 @@
 
 🌐 **Aplikasi live:** <https://zann06.github.io/LMS/>
 
-| | |
-|---|---|
-| **Portal Guru** | Login dengan akun role `teacher` — dashboard, kelas, materi, modul, tugas, bank soal, ujian, penilaian, analitik |
-| **Portal Siswa** | Login dengan akun role `student` — dashboard, materi, modul, tugas, ujian, nilai, profil |
+**Coba sebagai siswa** (akun demo publik):
 
-Aplikasi membutuhkan backend Supabase (Auth + PostgreSQL). Ada dua cara mencobanya:
+```
+Email    : siswa@demo.local
+Password : SiswaDemo2026!
+```
 
-1. **Demo live** — masuk dengan akun demo yang tersedia di instance live (bila disediakan pemilik instance).
-2. **Instance sendiri (disarankan)** — ikuti [Mulai Cepat](#mulai-cepat) di bawah: 10 menit, gratis, dan **data sepenuhnya milik Anda**. Lalu buat akun guru lewat SQL di [Setup Database](#setup-database-supabase) dan akun siswa langsung dari aplikasi (menu Kelas).
+Dengan akun siswa kamu bisa melihat kelas "X IPA 1", membaca 2 materi bahan ajar, melihat tugas dengan tenggat, dan mengerjakan ujian pilihan ganda (3 soal, timer 45 menit, skor langsung muncul setelah submit).
 
-> Demo live memakai database publik untuk keperluan showcase — **jangan** simpan data siswa asli di sana. Untuk pemakaian nyata, selalu deploy dengan project Supabase milik Anda sendiri.
+> **Catatan demo:** data di instance live adalah data contoh — pengunjung demo bisa mengubahnya. Untuk pemakaian nyata, selalu deploy dengan project Supabase milik Anda sendiri (ikuti [Mulai Cepat](#mulai-cepat), ±10 menit). Akun guru **tidak** dipublikasikan — guru mengelola kelas, materi, bank soal, ujian, penilaian, dan analitik pada instance masing-masing.
 
 ---
 
@@ -111,11 +110,22 @@ Aplikasi membutuhkan backend Supabase (Auth + PostgreSQL). Ada dua cara mencoban
 
 ## Tampilan
 
-| Login |
-|:---:|
-| ![Halaman Login RuangAjar](docs/screenshots/login.png) |
+| Portal Guru | |
+|:---:|:---:|
+| **Dashboard Guru** — ringkasan kelas, tugas & aktivitas | **Detail Kelas** — siswa, materi, modul, tugas, ujian |
+| ![Dashboard Guru](docs/screenshots/guru-dashboard.png) | ![Detail Kelas](docs/screenshots/guru-kelas.png) |
+| **Ujian Online** — buat ujian dari bank soal, atur timer & attempt | |
+| ![Ujian Online](docs/screenshots/guru-ujian.png) | |
 
-> Screenshot portal guru & siswa akan ditambahkan. Kontributor dipersilakan menambakan screenshot ke `docs/screenshots/` lewat pull request.
+| Portal Siswa | |
+|:---:|:---:|
+| **Dashboard Siswa** — tugas & ujian yang perlu dikerjakan | **Bahan Ajar** — baca & unduh materi dari guru |
+| ![Dashboard Siswa](docs/screenshots/siswa-dashboard.png) | ![Bahan Ajar Siswa](docs/screenshots/siswa-materi.png) |
+
+| Halaman Masuk | |
+|:---:|:---:|
+| **Login** — portal guru & siswa dalam satu pintu | |
+| ![Halaman Login](docs/screenshots/login.png) | |
 
 ---
 
