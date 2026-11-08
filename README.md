@@ -121,6 +121,8 @@ Dengan akun siswa kamu bisa melihat kelas "X IPA 1", membaca 2 materi bahan ajar
 |:---:|:---:|
 | **Dashboard Siswa** — tugas & ujian yang perlu dikerjakan | **Bahan Ajar** — baca & unduh materi dari guru |
 | ![Dashboard Siswa](docs/screenshots/siswa-dashboard.png) | ![Bahan Ajar Siswa](docs/screenshots/siswa-materi.png) |
+| **Nilai Saya** — hasil ujian dinilai otomatis oleh server | |
+| ![Nilai Siswa](docs/screenshots/siswa-nilai.png) | |
 
 | Halaman Masuk | |
 |:---:|:---:|
