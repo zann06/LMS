@@ -35,10 +35,12 @@ supabase/config.toml.local
 # Config lokal CLI yang bisa berisi token
 .supabase/
 # Jangan pernah commit folder supabase secara keseluruhan.
-# Yang BOLEH di-commit hanya folder supabase/migrations/ (file .sql schema).
+# Yang BOLEH di-commit hanya folder supabase/migrations/ (file .sql schema)
+# dan setup.sql (all-in-one untuk project baru).
 supabase/*
 !supabase/migrations/
 !supabase/migrations/**
+!supabase/setup.sql
 
 # ---------- Node / dependencies ----------
 node_modules/

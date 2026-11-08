@@ -235,12 +235,9 @@ Schema database ada di `supabase/migrations/`.
 
 ### Cara A — Supabase SQL Editor (paling mudah)
 
-Buka **SQL Editor → New query → Run** untuk file berikut, **berurutan**:
+Buka **SQL Editor → New query**, salin seluruh isi **`supabase/setup.sql`**, lalu **Run**. Satu file berisi semua migration dalam urutan yang benar (schema, RLS, trigger, kunci jawaban, fitur guru) dan aman dijalankan ulang.
 
-1. `supabase/migrations/20261006144215_001_initial_schema.sql` — schema, tabel, RLS, trigger
-2. `supabase/migrations/20261007074229_repair_auth_profile_trigger.sql` — perbaikan trigger pembuatan profil
-3. `supabase/migrations/20261007080001_private_answer_keys.sql` — mengunci kunci jawaban dari siswa
-4. `supabase/migrations/002_teacher_tools.sql` — fitur guru (analytics, penilaian, RPC)
+> Preferensi per-file? Jalankan 4 file di `supabase/migrations/` secara berurutan: `20261006144215_001_initial_schema.sql` → `20261007074229_repair_auth_profile_trigger.sql` → `20261007080001_private_answer_keys.sql` → `002_teacher_tools.sql`.
 
 ### Cara B — Supabase CLI
 
