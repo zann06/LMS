@@ -479,6 +479,8 @@ Untuk riwayat yang sudah di-push, bersihkan dengan `git filter-repo` / BFG Repo-
 | Role tidak sesuai portal | Role diambil dari `profiles.role` — pastikan nilainya `teacher` atau `student`. |
 | Email reset password tidak terkirim / redirect salah | Atur **Site URL** & **Redirect URLs** di Supabase Auth (lihat [Konfigurasi Auth](#konfigurasi-auth-untuk-deploy)). |
 | Deep link 404 di GitHub Pages | Pastikan deploy lewat workflow (yang menyalin `index.html` → `404.html`) atau lakukan manual (lihat [Deploy manual](#deploy-manual--hosting-lain)). |
+| `permission denied for table <nama>` (42501) setelah restore project | Grants default Supabase hilang saat restore. Jalankan ulang `GRANT` default di SQL Editor: `GRANT USAGE ON SCHEMA public TO anon, authenticated, service_role; GRANT ALL ON ALL TABLES IN SCHEMA public TO anon, authenticated, service_role;` (+ sequences & routines). |
+| Situs Supabase `HTTP 521` setelah restore | Origin belum siap — tunggu beberapa menit lalu cek lagi `/auth/v1/health`. |
 | Error TypeScript saat build | Jalankan `npm run typecheck` untuk detail. |
 | Perubahan `.env` tidak terbaca | Environment Vite hanya dimuat saat start — restart dev server. |
 | Halaman putih di GitHub Pages dengan URL `/Users/...` | Base path salah ter-set (path Windows ikut ke env). Gunakan `npm run build:pages`, bukan env var manual di Git Bash. |
