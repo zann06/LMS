@@ -183,7 +183,8 @@ export type FontLoader = (file: string) => Promise<string | null>   // base64 TT
 
 const defaultFontLoader: FontLoader = async (file) => {
   try {
-    const res = await fetch(`/fonts/${file}`)
+    // BASE_URL agar tetap benar saat deploy di sub-path (mis. GitHub Pages /<repo>/)
+    const res = await fetch(`${import.meta.env.BASE_URL}fonts/${file}`)
     if (!res.ok) return null
     const buf = new Uint8Array(await res.arrayBuffer())
     let bin = ''
@@ -200,8 +201,13 @@ class PdfBuilder {
   unicode = false
   private family = 'helvetica'
   private hasBold = true
+  readonly doc: jsPDF
+  private footerTitle: string
 
-  constructor(readonly doc: jsPDF, private footerTitle: string) {}
+  constructor(doc: jsPDF, footerTitle: string) {
+    this.doc = doc
+    this.footerTitle = footerTitle
+  }
 
   async setupFont(allText: string, loader: FontLoader) {
     if (!needsUnicodeFont(allText)) return

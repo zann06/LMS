@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import type { Database } from './database.types'
+import { supabaseAnonKey, supabaseUrl } from './env'
 
 /**
  * Klien Supabase terpisah (tidak menyimpan sesi) khusus untuk membuatkan akun siswa.
@@ -7,7 +8,7 @@ import type { Database } from './database.types'
  * (bila konfirmasi email dimatikan), sehingga guru mendadak login sebagai siswa.
  */
 export function createIsolatedClient() {
-  return createClient<Database>(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY, {
+  return createClient<Database>(supabaseUrl, supabaseAnonKey, {
     auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false, storageKey: 'ruangajar-isolated-signup' },
   })
 }

@@ -1,0 +1,41 @@
+name: 💡 Usulan Fitur
+description: Usulkan fitur atau perbaikan
+title: "[Fitur]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Masalah yang ingin diselesaikan
+      description: Jelaskan masalah nyata di kelas/proses belajar, bukan solusinya dulu.
+      placeholder: "Siswa sering melewatkan deadline tugas karena ..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Solusi yang diusulkan
+      description: Bagaimana tampilan/alurnya? Sketsa atau screenshot sangat membantu.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: target
+    attributes:
+      label: Untuk siapa fitur ini?
+      options:
+        - "Guru"
+        - "Siswa"
+        - "Keduanya"
+        - "Admin/Maintainer"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: alternatives
+    attributes:
+      label: Sudah dipertimbangkan?
+      options:
+        - label: Saya sudah mencari di issue & roadmap yang ada
+        - label: Saya bersedia membantu implementasinya (bila memungkinkan)

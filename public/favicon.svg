@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- RuangAjar favicon: topi wisuda di atas warna brand terracotta -->
+  <rect width="64" height="64" rx="14" fill="#b4573b"/>
+  <g fill="#fdf6ec">
+    <!-- papan topi (diamond) -->
+    <path d="M32 12 L58 25 L32 38 L6 25 Z"/>
+    <!-- badan topi -->
+    <path d="M18 30 L18 42 Q18 51 32 51 Q46 51 46 42 L46 30 L32 37 Z" opacity="0.9"/>
+    <!-- tassel -->
+    <rect x="55.4" y="24" width="2.6" height="14" rx="1.3"/>
+    <circle cx="56.7" cy="41" r="3"/>
+  </g>
+</svg>

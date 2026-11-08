@@ -30,7 +30,9 @@ import { StudentProfilePage } from '@/pages/student/profile'
 
 export function App() {
   return (
-    <BrowserRouter>
+    // basename mengikuti BASE_URL ("/" saat dev, "/<repo>/" saat build GitHub Pages)
+    // agar semua navigasi tetap berada di bawah base path.
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <AuthProvider>
         <Routes>
           {/* Public routes */}
