@@ -30,10 +30,10 @@ const PLACEHOLDER_PATTERN = /your-project|your-anon-key|isi-di-sini|<|…/i
 const runtime = typeof window !== 'undefined' ? window.RUANGAJAR_CONFIG : undefined
 
 function pick(runtimeValue: string | undefined, envValue: string | undefined): string {
-  const value = (runtimeValue ?? '').trim() || (envValue ?? '').trim()
-  // Placeholder dari .env.example / config.js dianggap "belum diisi".
-  if (!value || PLACEHOLDER_PATTERN.test(value)) return ''
-  return value
+  // Coba runtime config dulu, lalu env build-time. Placeholder dari
+  // .env.example / config.js dianggap "belum diisi" dan dilewati.
+  const candidates = [(runtimeValue ?? '').trim(), (envValue ?? '').trim()]
+  return candidates.find((v) => v && !PLACEHOLDER_PATTERN.test(v)) ?? ''
 }
 
 const resolvedUrl = pick(runtime?.supabaseUrl, import.meta.env.VITE_SUPABASE_URL)
