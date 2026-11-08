@@ -438,6 +438,7 @@ Semua rute `/teacher` & `/student` dilindungi `ProtectedRoute`; `/teacher/*` mew
 - 🔑 **Kredensial tidak pernah di-commit.** `.env` di-ignore; hanya `.env.example` (placeholder) yang masuk repo. `public/config.js` di-commit hanya berisi placeholder.
 - 🛡️ **RLS aktif di semua tabel.** Akses data dipagari di database, bukan di frontend.
 - 🚫 **Tidak ada `service_role` key** di kode frontend — hanya anon key yang memang dirancang untuk publik.
+- 🧱 **Signup publik selalu ber-role `student`** — role guru tidak bisa diambil lewat API pendaftaran (migration `20261108000001_lock_signup_role_student.sql`). Akun guru hanya dibuat via Dashboard/SQL.
 - 🧹 Folder lokal Supabase (`supabase/.temp/`, dll.) di-ignore; hanya `migrations/*.sql` yang di-commit.
 - 🔒 Kunci jawaban ujian dikunci di level database oleh migration `private_answer_keys.sql`.
 
